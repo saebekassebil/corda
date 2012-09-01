@@ -11,8 +11,11 @@
         var eminor = Corda.symbol({
           notes: ['o', 2, 2, 'o', 'o', 'o']
         });
-        var emajor = Corda.symbol({
-          notes: ['o', 2, 2, 1, 'o', 'o']
+        var dismaj9 = Corda.symbol({
+          notes: [null, 3, 2, 4, 3, null],
+          tuning: ['E', 'A', 'D', 'G', 'B', 'e'],
+          fret: 4,
+          showFret: true
         });
         var gmajor = Corda.symbol({
           notes: [3, 2, 'o', 'o', 'o', 3]
@@ -29,7 +32,7 @@
 
         aminor.render(document.getElementById('canvas'));
         eminor.render(document.getElementById('canvas1'));
-        emajor.render(document.getElementById('canvas2'));
+        dismaj9.render(document.getElementById('canvas2'));
         gmajor.render(document.getElementById('canvas3'));
         cminor7.render(document.getElementById('canvas4'));
         cmajor.render(document.getElementById('canvas5'));

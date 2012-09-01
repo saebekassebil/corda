@@ -33,6 +33,7 @@
   }
   
   function CordaSymbol(options) {
+    this.options = options;
     this.fret = options.fret || 0;
     this.notes = options.notes;
     this.styles = {};
@@ -53,23 +54,50 @@
           , width = canvas.width
           , frets = 6
           , fretUnit = height / frets
-          , marginWidth = fretUnit / 2
+          , marginLeft = fretUnit / 2
+          , marginRight = fretUnit / 2
           , marginTop = fretUnit
-          , symbolWidth = width - 2 * marginWidth - 1
+          , symbolWidth = width - marginLeft - marginRight - 1
           , symbolHeight = height - marginTop - 1
           , strings = 6
+          , stringUnit = symbolWidth / (strings - 1)
           , nutWidth = fretUnit / 4
-          , i, x, xshift, y, yshift;
+          , fontSize = fretUnit / 3 * 2
+          , i, length, x, y, yshift, text, tuning;
 
       ctx.save();
+      ctx.font = fontSize + 'px ' + this.styles.font;
+
+      // Fret number
+      if (this.options.showFret && this.fret !== 0) {
+        text = this.fret.toString(10) + 'fr';
+        marginRight += ctx.measureText(text).width + stringUnit / 2;
+        symbolWidth = width - marginLeft - marginRight - 1;
+        stringUnit = symbolWidth / (strings - 1);
+        ctx.fillText(
+            text,
+            symbolWidth + stringUnit,
+            marginTop + fretUnit / 3 * 2
+        );
+      }
+
+      // If a tuning is supplied, lets show it!
+      if ((tuning = this.options.tuning)) {
+        for (i = 0, length = tuning.length; i < length; i++) {
+          ctx.fillText(
+              tuning[i],
+              marginLeft + stringUnit * i - ctx.measureText(tuning[i]).width / 2,
+              marginTop - fontSize / 2
+          );
+        }
+      }
 
       // Strings
       ctx.lineWidth = 1;
-      xshift = symbolWidth / (strings - 1);
       ctx.strokeStyle = this.styles.string;
       for (i = 0; i < strings; i++) {
         ctx.beginPath();
-        x = marginWidth + i * xshift;
+        x = marginLeft + i * stringUnit;
         ctx.moveTo(x, marginTop);
         ctx.lineTo(x, height);
         ctx.closePath();
@@ -89,8 +117,8 @@
         }
 
         ctx.beginPath();
-        ctx.moveTo(marginWidth, y);
-        ctx.lineTo(width - marginWidth, y);
+        ctx.moveTo(marginLeft, y);
+        ctx.lineTo(width - marginRight, y);
         ctx.closePath();
         ctx.stroke();
         ctx.restore();
@@ -101,7 +129,7 @@
       y = marginTop / 2;
       for (i = 0; i < notes.length; i++) {
         ctx.save();
-        x = marginWidth + i * xshift;
+        x = marginLeft + i * stringUnit;
         if (notes[i] === 'x') {
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.styles.cross;
@@ -110,7 +138,7 @@
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.styles.open;
           renderCircle(ctx, x, y - nutWidth / 2, fretUnit / 3, true);
-        } else {
+        } else if (!!notes[i]) {
           ctx.fillStyle = this.styles.dot;
           renderCircle(ctx, x, y + fretUnit * notes[i], fretUnit / 3, false);
         }
@@ -146,7 +174,7 @@
       nut: '#000000',
       dot: '#000000',
       open: '#000000',
-      text: '#ffffff',
+      font: 'Times',
       cross: '#000000'
     }
   };
