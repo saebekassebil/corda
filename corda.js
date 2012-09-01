@@ -50,6 +50,7 @@
           , symbolWidth = width - 2 * marginWidth - 1
           , symbolHeight = height - marginTop - 1
           , strings = 6
+          , nutWidth = fretUnit / 4
           , i, x, xshift, y, yshift;
 
       ctx.save();
@@ -76,8 +77,7 @@
 
         if (this.fret === 0 && i === 0) {
           ctx.strokeStyle = Corda.styles.nut;
-          ctx.lineWidth = fretUnit / 4;
-          y += fretUnit / 8;
+          ctx.lineWidth = nutWidth;
         }
 
         ctx.beginPath();
@@ -96,10 +96,10 @@
         x = marginWidth + i * xshift;
         if (notes[i] === 'x') {
           ctx.lineWidth = 2;
-          renderCross(ctx, x, y, fretUnit / 3 * 2);
+          renderCross(ctx, x, y - nutWidth / 2, fretUnit / 3 * 2);
         } else if (notes[i] === 'o' || notes[i] === 0) {
           ctx.lineWidth = 2;
-          renderCircle(ctx, x, y, fretUnit / 3, true);
+          renderCircle(ctx, x, y - nutWidth / 2, fretUnit / 3, true);
         } else {
           renderCircle(ctx, x, y + fretUnit * notes[i], fretUnit / 3, false);
         }
