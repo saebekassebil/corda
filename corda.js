@@ -10,7 +10,6 @@
       ctx.save();
       ctx.fillStyle = 'rgba(0,0,0,0)';
       ctx.fill();
-      ctx.strokeStyle = Corda.styles.dot
       ctx.stroke();
       ctx.restore();
     } else {
@@ -36,6 +35,15 @@
   function CordaSymbol(options) {
     this.fret = options.fret || 0;
     this.notes = options.notes;
+    this.styles = {};
+
+    // Copy main style, and apply private styling
+    options.styles = options.styles || {};
+    for (var i in Corda.styles) {
+      if (Corda.styles.hasOwnProperty(i)) {
+        this.styles[i] = options.styles[i] || Corda.styles[i];
+      }
+    }
   }
 
   CordaSymbol.prototype = {
@@ -58,7 +66,7 @@
       // Strings
       ctx.lineWidth = 1;
       xshift = symbolWidth / (strings - 1);
-      ctx.strokeStyle = Corda.styles.string;
+      ctx.strokeStyle = this.styles.string;
       for (i = 0; i < strings; i++) {
         ctx.beginPath();
         x = marginWidth + i * xshift;
@@ -70,13 +78,13 @@
 
       // Frets
       yshift = symbolHeight / (frets - 1); 
-      ctx.strokeStyle = Corda.styles.fret;
+      ctx.strokeStyle = this.styles.fret;
       for (i = 0; i < frets; i++) {
         ctx.save();
         y = marginTop + i * yshift;
 
         if (this.fret === 0 && i === 0) {
-          ctx.strokeStyle = Corda.styles.nut;
+          ctx.strokeStyle = this.styles.nut;
           ctx.lineWidth = nutWidth;
         }
 
@@ -96,11 +104,14 @@
         x = marginWidth + i * xshift;
         if (notes[i] === 'x') {
           ctx.lineWidth = 2;
+          ctx.strokeStyle = this.styles.cross;
           renderCross(ctx, x, y - nutWidth / 2, fretUnit / 3 * 2);
         } else if (notes[i] === 'o' || notes[i] === 0) {
           ctx.lineWidth = 2;
+          ctx.strokeStyle = this.styles.open;
           renderCircle(ctx, x, y - nutWidth / 2, fretUnit / 3, true);
         } else {
+          ctx.fillStyle = this.styles.dot;
           renderCircle(ctx, x, y + fretUnit * notes[i], fretUnit / 3, false);
         }
         ctx.restore();
@@ -133,8 +144,10 @@
       string: '#000000',
       fret: '#000000',
       nut: '#000000',
-      dots: '#000000',
-      text: '#ffffff'
+      dot: '#000000',
+      open: '#000000',
+      text: '#ffffff',
+      cross: '#000000'
     }
   };
   
