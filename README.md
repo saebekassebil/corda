@@ -20,7 +20,7 @@ aminor.render(canvasElement);
 ## Renderings
 ![EbMaj9](http://cloud.github.com/downloads/saebekassebil/corda/ebmaj9.png)
 ![G](http://cloud.github.com/downloads/saebekassebil/corda/g.png)
-![Cm7](http://cloud.github.com/downloads/saebekassebil/corda/cm7.png)
+![Cm7](http://cloud.github.com/downloads/saebekassebil/corda/cm9.png)
 ![D](http://cloud.github.com/downloads/saebekassebil/corda/d.png)
 
 ## API
