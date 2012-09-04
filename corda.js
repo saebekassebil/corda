@@ -156,22 +156,42 @@
       }
 
       // Render the notes
+      var noteIndex, noteText;
       for (i = 0; i < notes.length; i++) {
         ctx.save();
         x = marginLeft + i * stringUnit;
         y = marginTop;
-        if (notes[i] === 'x') {
+        if (notes[i] && typeof notes[i] === 'object') {
+          noteIndex = notes[i].note;
+          noteText = notes[i].text;
+        } else {
+          noteIndex = notes[i];
+          noteText = null;
+        }
+
+        if (noteIndex === 'x') {
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.styles.cross;
           renderCross(ctx, x, y - fretUnit / 3 - nutWidth, fretUnit / 4 * 2);
-        } else if (notes[i] === 'o' || notes[i] === 0) {
+        } else if (noteIndex === 'o' || noteIndex === 0) {
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.styles.open;
           renderCircle(ctx, x, y - fretUnit / 3 - nutWidth, fretUnit / 4, true);
-        } else if (!!notes[i]) {
+        } else if (!!noteIndex) {
           ctx.fillStyle = this.styles.dot;
-          y += -yshift / 2 + yshift * notes[i];
+          y += -yshift / 2 + yshift * parseInt(noteIndex);
           renderCircle(ctx, x, y, fretUnit / 3, false);
+
+          // If any finger placement is set, render the text
+          if (noteText) {
+            var size = yshift / 2;
+            ctx.font = size.toString(10) + 'px ' + this.styles.font;
+
+            var measure = ctx.measureText(noteText);
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = this.styles.text;
+            ctx.fillText(noteText, x - measure.width / 2, y + size / 30);
+          }
         }
         ctx.restore();
       }
@@ -244,7 +264,8 @@
       dot: '#000000',
       open: '#000000',
       font: 'Times',
-      cross: '#000000'
+      cross: '#000000',
+      text: '#FFFFFF'
     }
   };
 
