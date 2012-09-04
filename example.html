@@ -5,35 +5,18 @@
     <script src="./corda.js"></script>
     <script>
       window.addEventListener('load', function() {
-        var aminor = Corda.symbol({
-          notes: ['x', 'o', 2, 2, 1, 'o'],
-          frets: 4
-        });
-        var eminor = Corda.symbol({
-          name: 'Em',
-          notes: ['o', 2, 2, 'o', 'o', 'o'],
-          frets: 4
-        });
-        var esmaj9 = Corda.symbol({
+        var aminor = Corda.symbol('x.o.2.2.1.o', {frets: 4});
+        var eminor = Corda.symbol('o.2.2.o.o.o', {name: 'Em', frets: 4});
+        var esmaj9 = Corda.symbol('.3.2.4.3.', {
           name: 'Ebmaj9',
-          notes: [null, 3, 2, 4, 3, null],
           tuning: ['E', 'A', 'D', 'G', 'B', 'e'],
           fret: 4,
           showFret: true
         });
-        var gmajor = Corda.symbol({
-          notes: [3, 2, 'o', 'o', 'o', 3]
-        });
-        var cminor7 = Corda.symbol({
-          notes: ['x', 3, 1, 3, 3, 3]
-        });
-        var cmajor = Corda.symbol({
-          strings: 4,
-          notes: ['x', 1, 3, 'x']
-        });
-        var dmajor = Corda.symbol({
-          notes: ['x', 'x', 'o', 3, 4, 3]
-        });
+        var gmajor = Corda.symbol('3.2.o.o.o.3');
+        var cminor7 = Corda.symbol('x.3.1.3.3.3');
+        var dmajor = Corda.symbol('x.x.o.3.4.3');
+        var cmajor = Corda.symbol('x.1.3.x');
 
         aminor.render(document.getElementById('canvas'));
         eminor.render(document.getElementById('canvas1'));
@@ -59,13 +42,13 @@
     </style>
   </head>
   <body>
-    <canvas id="canvas" height="140" width="140">A</canvas> 
-    <canvas id="canvas1" height="140" width="140">A</canvas> 
-    <canvas id="canvas2" height="140" width="140">A</canvas> 
-    <canvas id="canvas3" height="140" width="140">A</canvas> 
-    <canvas id="canvas4" height="140" width="140">A</canvas> 
-    <canvas id="canvas5" height="140" width="140">A</canvas> 
-    <canvas id="canvas6" height="140" width="140">A</canvas> 
-    <canvas id="canvas7" height="140" width="140">A</canvas> 
+    <canvas id="canvas" height="140" width="140">Am</canvas> 
+    <canvas id="canvas1" height="140" width="140">Em</canvas> 
+    <canvas id="canvas2" height="140" width="140">Ebmaj9</canvas> 
+    <canvas id="canvas3" height="140" width="140">G</canvas> 
+    <canvas id="canvas4" height="140" width="140">C9</canvas> 
+    <canvas id="canvas5" height="140" width="140">Bb5</canvas> 
+    <canvas id="canvas6" height="140" width="140">D</canvas> 
+    <canvas id="canvas7" height="140" width="140">D</canvas> 
   </body>
 </html>
