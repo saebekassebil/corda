@@ -201,7 +201,25 @@
   };
 
   var Corda = {
-    symbol: function(options) {
+    symbol: function(notes, options) {
+      if (typeof notes === 'string') {
+        var strings, i;
+
+        notes = notes.split('.');
+        strings = notes.length;
+        for (i = 0; i < strings; i++) {
+          notes[i] = notes[i].split('/');
+          notes[i] = (notes[i].length === 1) ?
+            notes[i][0] : {note: notes[i][0], text: notes[i][1]};
+        }
+
+        options = options || {};
+        options.strings = strings;
+        options.notes = notes;
+      } else if (typeof notes === 'object') {
+        options = notes;
+      }
+
       return new CordaSymbol(options);
     },
 
