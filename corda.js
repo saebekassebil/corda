@@ -163,11 +163,11 @@
         if (notes[i] === 'x') {
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.styles.cross;
-          renderCross(ctx, x, y - fretUnit / 3 - nutWidth, fretUnit / 3 * 2);
+          renderCross(ctx, x, y - fretUnit / 3 - nutWidth, fretUnit / 4 * 2);
         } else if (notes[i] === 'o' || notes[i] === 0) {
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.styles.open;
-          renderCircle(ctx, x, y - fretUnit / 3 - nutWidth, fretUnit / 3, true);
+          renderCircle(ctx, x, y - fretUnit / 3 - nutWidth, fretUnit / 4, true);
         } else if (!!notes[i]) {
           ctx.fillStyle = this.styles.dot;
           y += -yshift / 2 + yshift * notes[i];
